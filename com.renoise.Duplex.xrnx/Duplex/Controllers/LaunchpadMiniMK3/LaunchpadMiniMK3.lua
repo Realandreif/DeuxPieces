@@ -46,18 +46,18 @@ function LaunchpadMiniMK3:output_value(pt,xarg,ui_obj)
     local color = self:quantize_color(pt.color)
     if (string.match(self.port_out, "Launchpad Pro")) then
       if (xarg.value:sub(1,3) == "CC#") then
-        self:send_sysex_message(0, 32, 41, 2, 16, 11, tonumber(xarg.value:sub(4)), color[1] / 4, color[2] / 4, color[3] / 4, 247)
+        self:send_sysex_message(0, 32, 41, 2, 16, 11, tonumber(xarg.value:sub(4)), color[1] / 4, color[2] / 4, color[3] / 4)
       else
-        self:send_sysex_message(0, 32, 41, 2, 16, 11, value_to_midi_pitch(xarg.value)+12, color[1] / 4, color[2] / 4, color[3] / 4, 247)
+        self:send_sysex_message(0, 32, 41, 2, 16, 11, value_to_midi_pitch(xarg.value)+12, color[1] / 4, color[2] / 4, color[3] / 4)
       end
     else
       if (xarg.value:sub(1,3) == "CC#") then
         -- https://userguides.novationmusic.com/hc/en-gb/articles/24001475492498-Controlling-the-Launchpad-X-surface
         -- (modern launchpads (mini, X, ...) should behave similarly)
         -- duplex code colors over 8 bits, launchpad support 7.
-        self:send_sysex_message(0, 32, 41, 2, 12, 3, 3, tonumber(xarg.value:sub(4)), color[1] / 2, color[2] / 2, color[3] / 2, 247)
+        self:send_sysex_message(0, 32, 41, 2, 13, 3, 3, tonumber(xarg.value:sub(4)), color[1] / 2, color[2] / 2, color[3] / 2)
       else
-        self:send_sysex_message(0, 32, 41, 2, 12, 3, 3, value_to_midi_pitch(xarg.value)+12, color[1] / 2, color[2] / 2, color[3] / 2, 247)
+        self:send_sysex_message(0, 32, 41, 2, 13, 3, 3, value_to_midi_pitch(xarg.value)+12, color[1] / 2, color[2] / 2, color[3] / 2)
       end
     end
     -- return a dummy color, and don't update the hardware knob (we already updated color with sysex)
